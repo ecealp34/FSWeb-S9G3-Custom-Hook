@@ -3,36 +3,28 @@ import { useState } from "react"
 export default function localStorageKullan(key, initialValue) {
 
     const [value, setValue] = useState(() => {
+        const localValue = JSON.parse(localStorage.getItem(key));
+        if (localValue === null) {
+            localStorage.setItem(key, JSON.stringify(initialValue))
+            console.log("data yok", initialValue)
+            return initialValue
 
-    const localValue = JSON.parse(localStorage.getItem(key));
+        } else {
 
-    if(localValue === null) {
+            console.log("data var", localValue)
 
-        localStorage.setItem(key, JSON.stringify(initialValue))
+            return localValue
+        }
+    
+    })
+    const setLocalStorage = (newValue) => {
 
-        console.log("data yok", initialValue)
+        localStorage.setItem(key, JSON.stringify(newValue))
 
-        return initialValue
-
-    } else {
-
-        console.log("data var", localValue)
-        
-        return localValue
-    }
-
- 
-const setLocalStorage = (newValue) => {
-
-    localStorage.setItem(key, JSON.stringify(newValue))
-
-    setValue(newValue);
-return [value, setLocalStorage];
-};
-})
-
-
-
+        setValue(newValue);
+       
+    };
+     return [value, setLocalStorage];
 }
 
 
